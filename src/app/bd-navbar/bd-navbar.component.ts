@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase'; 
+
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-bd-navbar',
@@ -9,9 +9,9 @@ import * as firebase from 'firebase';
 })
 export class BdNavbarComponent implements OnInit {
 
-  user: firebase.User
-  constructor(private afAuth: AngularFireAuth) { 
-    afAuth.authState.subscribe(user => this.user = user)
+
+  constructor(public auth: AuthService) {  //auth incluye tambien el objeto user. funciona con private en test, pero en la compilación de prod necesita que cualquier cosa usada en el template sea público
+
   }
 
   ngOnInit() {
@@ -19,7 +19,6 @@ export class BdNavbarComponent implements OnInit {
 
   logout() {
     console.log("clickeo logout");
-    this.afAuth.auth.signOut();
-    //this.afAuth.authState.subscribe(x => {console.log(x)})
+    this.auth.logout();
   }
 }
