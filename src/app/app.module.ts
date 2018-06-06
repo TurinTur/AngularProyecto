@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 // añadidos
 import { environment } from '../environments/environment';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 // 3rd party
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -23,10 +24,12 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
 import { LoginComponent } from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 // Servicios
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth-guard.service';
-import { UserService } from './user.service';
-import { AdminAuthGuard } from './admin-auth-guard.service';
+import { AuthService } from './auth.service';                 // logeo usuario
+import { AuthGuard } from './auth-guard.service';             // limita acceso a usuarios logeados
+import { UserService } from './user.service';                 // crud usuario DB
+import { AdminAuthGuard } from './admin-auth-guard.service';  // limita acceso a paginas de admin
+import { CategoryService } from './category.service';         // Obtiene las categorías de producto
+import { ProductService } from './product.service';           // para salvar productos
 
 
 
@@ -50,6 +53,7 @@ import { AdminAuthGuard } from './admin-auth-guard.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    FormsModule,
     NgbModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent},
@@ -70,7 +74,9 @@ import { AdminAuthGuard } from './admin-auth-guard.service';
     AuthService,
     AuthGuard,
     AdminAuthGuard,
-    UserService],
+    UserService, 
+    CategoryService,
+    ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

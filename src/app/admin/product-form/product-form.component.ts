@@ -1,4 +1,7 @@
+import { ProductService } from './../../product.service';
+import { CategoryService } from './../../category.service';
 import { Component, OnInit } from '@angular/core';
+import { AngularFireList } from 'angularfire2/database';
 
 @Component({
   selector: 'app-product-form',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductFormComponent implements OnInit {
 
-  constructor() { }
+  categories$;
+  
+  // no hace falta private para categoryService porque solo lo uso en el constructor
+  constructor(categoryService: CategoryService, private productService: ProductService) { 
+    this.categories$ = categoryService.getCategories();
+
+  }
 
   ngOnInit() {
   }
+
+  save(product) {
+    this.productService.create(product);
+    console.log(product)
+  }
+
 
 }
