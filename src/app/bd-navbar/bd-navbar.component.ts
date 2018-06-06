@@ -1,3 +1,4 @@
+import { AppUser } from './../models/app-user';
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../auth.service';
@@ -9,9 +10,12 @@ import { AuthService } from '../auth.service';
 })
 export class BdNavbarComponent implements OnInit {
 
-
-  constructor(public auth: AuthService) {  //auth incluye tambien el objeto user. funciona con private en test, pero en la compilación de prod necesita que cualquier cosa usada en el template sea público
-
+  appUser : AppUser;
+  
+  // auth incluye tambien el objeto user. funciona con private en test, pero en la compilación de prod necesita que cualquier cosa usada en el template sea público
+  // cambiado a private posteriormente porque he dejado de usarla directamente en el template
+  constructor(private auth: AuthService) {  
+     auth.appUser$.subscribe(appUser => this.appUser = appUser);  // no necesitamos desuscribirnos onDestroy porque solo voy a tener una instanica de este componente en el Dom, y quiero que permanezca durante la vida de mi app
   }
 
   ngOnInit() {

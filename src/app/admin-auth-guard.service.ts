@@ -13,14 +13,17 @@ export class AdminAuthGuard {
 
   constructor(private auth: AuthService, private userService: UserService) {  }
 
-  canActivate() : Observable<boolean> {
+  /* canActivate_old() : Observable<boolean> {   // versión vieja!
     return this.auth.user$.pipe(
       switchMap(user => {   // cambiamos del observable(firebase.user) a observable(AngularFireObject<AppUser>) gracias al uid...
         return this.userService.get(user.uid).valueChanges(); // ...a Observable(AppUser) obtenido por valueChanges
       }),
-      map(AppUser => AppUser.isAdmin));   // finalmente mapeamos la propiedad boolean, obteniendo un Observable<boolean>
-
-
+      map(AppUser => AppUser.isAdmin));   // finalmente mapeamos de AppUser a la propiedad boolean, obteniendo un Observable<boolean>
   }
+ */
 
+  canActivate() : Observable<boolean> {     // versión nueva, reuso cóidgo de authService
+    return this.auth.appUser$.pipe(
+      map(AppUser => AppUser.isAdmin));   // finalmente mapeamos de AppUser a la propiedad boolean, obteniendo un Observable<boolean>
+  }
 }

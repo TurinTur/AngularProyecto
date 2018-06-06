@@ -25,3 +25,17 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+Características:
+
+-Uso Boostrap 4 para estilo
+-Autentificación con cuenta de google
+-Salvado y lectura de usuarios en BD Firebase
+-Entradas de menú se muestran u ocultan según si estas logeado
+-Redirección a la pag de login si intentas entrar a una pagina sin permisos
+-Redirección a la pagina donde estabas si te logeas
+-Comprobación de permisos para paginas de admin
+
+ Páginas:
+-Tabla productos para admins: 
+-Form productos:
