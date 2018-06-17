@@ -8,34 +8,38 @@
 <data-table
     [items]="items"
     [itemCount]="itemCount"
-    (reload)="reloadItems($events)"
+    (reload)="reloadItems($event)"
 >
     <data-table-column
-        [property]="'title'"
+        [property]="'data.title'"
         [header]="'Title'"
         [sortable]="true"
         [resizable]="true"
     >
+    <ng-template #dataTableCell let-item="item">
+            {{ item.data.title }}
+        </ng-template>
     </data-table-column>
     <data-table-column
-        [property]="'price'"
+       [property]="'data.price'"
         [header]="'Price'"
         [sortable]="true"
         [resizable]="true"
     >
-        <ng-template #dataTableCell let-item="product">
-            {{ product.price | currency:'USD'}}
-        </ng-template>
+    <ng-template #dataTableCell let-item="item">
+        {{ item.data.price | currency:'USD'}}
+    </ng-template>
     </data-table-column>
     <data-table-column
-        [property]="'$key'"
+        [property]="'key'"
     >
-        <ng-template #dataTableCell let-item="product">
-            <a [routerLink]="['/admin/products/',p.key]">Edit</a>  
+        <ng-template #dataTableCell let-item="item">
+            <a [routerLink]="['/admin/products/',item.key]">Edit</a>  
         </ng-template>
     </data-table-column>
 </data-table>
 
+<p>Version antigua:</p>
 <table class="table">
     <thead>
         <tr>
@@ -46,7 +50,7 @@
     </thead>
     <tbody>
         <!-- <tr *ngFor="let p of productsKeys$ | async"> -->
-         <tr *ngFor="let p of filteredProducts">
+         <tr *ngFor="let p of items">
             <td>{{ p.data.title }}</td> <!--  p.data.title -->
             <td>{{ p.data.price }}</td>
             <td>
