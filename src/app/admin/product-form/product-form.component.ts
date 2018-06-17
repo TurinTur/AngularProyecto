@@ -16,7 +16,7 @@ export class ProductFormComponent implements OnInit {
   categories$;
   product = {}; // para evitar tener un error en la carga inicial, ahora que usamos 2-way binding, ya que al inicio será null
   id: string;
-  
+  productTipo : Product;
   // no hace falta private para categoryService porque solo lo uso en el constructor
   constructor(
     private route: ActivatedRoute,
@@ -28,11 +28,20 @@ export class ProductFormComponent implements OnInit {
     this.id= this.route.snapshot.paramMap.get('id');
     if (this.id){
       //this.productService.get(id).subscribe(p => this.product = p);
-      this.productService.get(this.id)
-        .pipe(take(1))                          // Con take, puedo coger un elemento y se desuscribirá solo. en verdad lo uso aqui para la desuscripción
-        .subscribe(p => this.product = p);
-    } 
+      // this.productService.get(this.id)
+      //   .pipe(take(1))                          // Con take, puedo coger un elemento y se desuscribirá solo. en verdad lo uso aqui para la desuscripción
+      //   .subscribe(p => {
+      //     this.product = p;
+      //   });
 
+        this.productService.getTipo(this.id).valueChanges() // Versión tipada, la he hecho para tener menos errores falsos en el template. Tambien podria haber llamado a las propiedades con product['prop'] en vez de product.prop
+        .pipe(take(1))
+        .subscribe( p => {
+          this.productTipo = p;
+          console.log(this.productTipo)
+        });
+    } 
+    
   }
 
   ngOnInit() {
@@ -41,6 +50,7 @@ export class ProductFormComponent implements OnInit {
   save(product) {
 
     if (this.id) {
+      console.log(product.category);
       this.productService.update(this.id, product);
     }
     else {

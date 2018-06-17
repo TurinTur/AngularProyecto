@@ -11,7 +11,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CustomFormsModule } from 'ng2-validation'
+import { CustomFormsModule } from 'ng2-validation';
+import { DataTableModule } from '@mindsorg/ng-data-table';
 // componentes
 import { BdNavbarComponent } from './bd-navbar/bd-navbar.component';
 import { HomeComponent } from './home/home.component';
@@ -55,6 +56,7 @@ import { ProductService } from './product.service';           // para salvar pro
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     FormsModule,
+    DataTableModule.forRoot(),
     NgbModule.forRoot(),
     CustomFormsModule,
     RouterModule.forRoot([

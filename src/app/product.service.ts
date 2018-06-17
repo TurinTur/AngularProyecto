@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
-import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot, AngularFireObject } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
+import { Product } from './models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,12 @@ export class ProductService {
     return this.db.list('/products').snapshotChanges();
   }
 
-  get(productId ){
+  get(productId ) {
     return this.db.object('/products/' + productId).valueChanges();
+  }
+
+  getTipo(productId ) : AngularFireObject<Product>{
+    return this.db.object('/products/' + productId);
   }
 
   update (productId, product){
