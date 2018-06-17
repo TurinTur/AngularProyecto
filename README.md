@@ -33,7 +33,7 @@ Características:
 -Salvado y lectura de usuarios en BD Firebase
 -Entradas de menú se muestran u ocultan según si estas logeado
 -Redirección a la pag de login si intentas entrar a una pagina sin permisos
--Redirección a la pagina donde estabas si te logeas
+-Redirección a la pagina donde estabas antes si te logeas
 -Comprobación de permisos para paginas de admin
 
  Páginas:

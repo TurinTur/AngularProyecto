@@ -11,6 +11,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomFormsModule } from 'ng2-validation'
 // componentes
 import { BdNavbarComponent } from './bd-navbar/bd-navbar.component';
 import { HomeComponent } from './home/home.component';
@@ -55,6 +56,7 @@ import { ProductService } from './product.service';           // para salvar pro
     AngularFireDatabaseModule,
     FormsModule,
     NgbModule.forRoot(),
+    CustomFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent},
       { path: 'login', component: LoginComponent },
@@ -63,8 +65,9 @@ import { ProductService } from './product.service';           // para salvar pro
       { path: 'check-out', component: CheckOutComponent, canActivate:[AuthGuard] },
       { path: 'order-success', component: OrderSuccessComponent, canActivate:[AuthGuard] },
       { path: 'my/orders', component: MyOrdersComponent, canActivate:[AuthGuard] },
-      { path: 'admin/products', component: AdminProductsComponent, canActivate:[AuthGuard, AdminAuthGuard] },
-      { path: 'admin/products/new', component: ProductFormComponent, canActivate:[AuthGuard, AdminAuthGuard] },
+      { path: 'admin/products/new', component: ProductFormComponent, canActivate:[AuthGuard, AdminAuthGuard] },   // de mas especifico
+      { path: 'admin/products/:id', component: ProductFormComponent, canActivate:[AuthGuard, AdminAuthGuard] },
+      { path: 'admin/products', component: AdminProductsComponent, canActivate:[AuthGuard, AdminAuthGuard] },     // a menos especifico
       { path: 'admin/orders', component: AdminOrdersComponent, canActivate:[AuthGuard,AdminAuthGuard] }
       
     ])

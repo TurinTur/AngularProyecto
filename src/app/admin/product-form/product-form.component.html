@@ -1,22 +1,54 @@
-<form #f="ngForm" (ngSubmit)="save(f.value)">
-  <div class="form-group"><label for="title">Title</label>
-    <input ngModel name="title" id="title" type="text" class="form-control"></div>
-  <div class="form-group"><label for="price">Price</label>
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">$</span>
+<div class="row">
+  <div class="col-md-6"><!--  columna, medium size, 6 =half screen, 12= full screen -->
+    <form #f="ngForm" (ngSubmit)="save(f.value)">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input #title="ngModel" [(ngModel)]="product['title']" name="title" id="title" type="text" class="form-control" required> <!-- #title=ngModel es para poder usarlo en el if de abajo -->
+          <div class="alert alert-danger" *ngIf="title.touched && title.invalid">Error: Title is required</div>
+        </div>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+            <input ngModel #price="ngModel" [(ngModel)]="product.price" name="price" id="price" type="number" class="form-control" required [min]="0"> <!-- min=0 de ng2-validation -->
+          </div> 
+          <div class="alert alert-danger" *ngIf="price.touched && price.invalid">
+              <div *ngIf="price.errors.required">Error: Price is required</div> 
+              <div *ngIf="price.errors.min">Error: Price should be 0 or higher.</div>
           </div>
-      <input ngModel name="price" id="price" type="number" class="form-control">
-    </div>
-  </div>
-  <div class="form-group"><label for="category">Category</label>
-    <select ngModel name="category" id="category"  class="form-control">
-      <option value=""></option>
-      <option *ngFor="let c of categories$ | async" [value]="c.key">{{c.name}}</option>
-      
-    </select>
-  </div>
-  <div class="form-group"><label for="imageUrl">image Url</label>
-    <input ngModel name="imageUrl" id="imageUrl" type="text" class="form-control"></div>
-  <button class="btn btn-primary">Save</button>
-</form>
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select #category="ngModel" [(ngModel)]="product.category" name="category" id="category"  class="form-control" required>
+            <option value=""></option>
+            <option *ngFor="let c of categories$ | async" [value]="c.key">{{c.name}}</option>
+            
+          </select>
+          <div class="alert alert-danger" *ngIf="category.touched && category.invalid">Error: Category is required</div>
+        </div>
+        <div class="form-group">
+          <label for="imageUrl">image Url</label>
+          <input #imageUrl="ngModel" [(ngModel)]="product.imageUrl" name="imageUrl" id="imageUrl" type="text" class="form-control" required url> <!-- url de ng2-validation -->
+          <div class="alert alert-danger" *ngIf="imageUrl.touched && imageUrl.invalid">
+            <div *ngIf="imageUrl.errors.required">Error: Image Url is required</div> 
+            <div *ngIf="imageUrl.errors.url">Error: Not a valid url</div> 
+          </div>
+        </div>
+        <button class="btn btn-primary">Save</button> <!-- El tipo por defecto de button es submit, por eso no necesita tipo aqui -->
+        <button type="button" (click)="delete()" class="btn btn-danger">Delete</button> <!-- Hay que especificar tipo button para que no submita el form -->
+      </form>
+  </div> 
+
+  <div class="col-md-6">   <!--  Preview de producto con bootsrap card en la parte derecha -->
+    <div class="card" style="width: 18rem;">
+       <!-- [src]="product.imageUrl" funciona, intelliSense de Angular Lang. Service se confunde porque no tiene tipo -->
+        <img class="card-img-top" [src]="product['imageUrl']" *ngIf="product.imageUrl">  <!-- solo renderizar si existe ya -->
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text"> {{ product.price | currency:'USD':'symbol' }}</p>
+        </div>
+      </div>
+  </div> 
+</div>

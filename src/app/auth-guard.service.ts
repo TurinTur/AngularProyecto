@@ -12,11 +12,12 @@ export class AuthGuard implements CanActivate{
   constructor(private auth: AuthService, private router: Router) { }
 
   canActivate(route, state:RouterStateSnapshot): Observable<boolean> {
-    return this.auth.user$.pipe(map(user => { // mapeamos del observable(firebase.user) a Observable<boolean>
-      if (user) return true;    // permitemos la entrada a la pagina si el usuario registrado existe)
-      // si no...
-      this.router.navigate(['/login'],{ queryParams:{ returnUrl: state.url}}); // redirigir al la url actual después del login
-      return false;
+    return this.auth.user$.pipe(
+      map(user => {               // mapeamos del observable(firebase.user) a Observable<boolean>
+        if (user) return true;    // permitemos la entrada a la pagina si el usuario registrado existe)
+        // si no...
+        this.router.navigate(['/login'],{ queryParams:{ returnUrl: state.url}}); // redirigir al la url actual después del login
+        return false;
     }))
 
   }

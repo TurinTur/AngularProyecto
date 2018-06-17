@@ -11,7 +11,9 @@ import { UserService } from './user.service';
 export class AppComponent {
 
   constructor( private auth: AuthService, router: Router, userService: UserService){  // no hace falta desuscribirnos de este .subscribe porque está en el componente raiz
+    // Función: Cada vez que el usuario se logea (auth), salvamos el usuario en la BD (userService) y volvemos a una URL antigua (router)
 
+    
     auth.user$.subscribe( user => {     // cada vez que el usuario logea o se deslogea, este observable emite un valor
       //console.log('emito valor !')
 

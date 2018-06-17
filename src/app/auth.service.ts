@@ -24,7 +24,7 @@ export class AuthService {
 
   login (){
      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/'; // return url es definido en el método CanActivate de auth-guard
-     localStorage.setItem('returnUrl',returnUrl); // redirigimos a este url después del login
+     localStorage.setItem('returnUrl',returnUrl); // redirigimos a esta url después del login
      console.log('url guardada en localStorage ' + returnUrl)
      //this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());  // Hay varias formas de mostrar el logeo
      this.afAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
@@ -36,7 +36,7 @@ export class AuthService {
   }
 
 /*   get appUser$_old () : Observable<AppUser> { // Es peligroso usar este valor en la UI directamente, porque usamos switchMap. Cuando el valor emitido cambia por el switchMap, la template se evalua de nuevo
-    return this.user$.pipe(               // al detecar un cambio, hanciendo que de nuevo se ejecute el get, de nuevo el switchMap... entra en bucle.
+    return this.user$.pipe(               // al detecar un cambio, haciendo que de nuevo se ejecute el get, de nuevo el switchMap... entra en bucle.
       switchMap(user => {   // cambiamos del observable(firebase.user) a observable(AngularFireObject<AppUser>) gracias al uid...
         return this.userService.get(user.uid).valueChanges(); // ...a Observable(AppUser) obtenido por valueChanges
       })
@@ -48,7 +48,8 @@ export class AuthService {
       switchMap(user => {  
         if (user) return this.userService.get(user.uid).valueChanges() 
 
-        return of(null); })
-     );   
+        return of(null); 
+      })
+    );   
   }
 }

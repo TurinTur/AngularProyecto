@@ -22,7 +22,7 @@ export class AdminAuthGuard {
   }
  */
 
-  canActivate() : Observable<boolean> {     // versión nueva, reuso cóidgo de authService
+  canActivate() : Observable<boolean> {     // versión nueva, reuso cóidgo de authService, por eso es mas corta
     return this.auth.appUser$.pipe(
       map(AppUser => AppUser.isAdmin));   // finalmente mapeamos de AppUser a la propiedad boolean, obteniendo un Observable<boolean>
   }
