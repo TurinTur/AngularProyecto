@@ -21,7 +21,11 @@ export class AppComponent {
         userService.save(user);       // lo normal seria guardarlos cuando el usuario se registra, no siempre que entra
         //console.log('ha habido logeo')
         let returnUrl = localStorage.getItem('returnUrl');  // sacamos la url que guardamos justo antes del login
-        router.navigateByUrl(returnUrl);                    // y volvemos allí
+        if (returnUrl) {
+          localStorage.removeItem('returnUrl');     // bug fix: solo tiene que redirigir una vez. si no se borra, cada vez que refrescamos la pag vuelva a la inicial
+          router.navigateByUrl(returnUrl);          // y volvemos allí
+        }
+        
       }
     })
   }
