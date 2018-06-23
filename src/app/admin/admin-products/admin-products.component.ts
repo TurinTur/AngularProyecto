@@ -23,7 +23,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   constructor(private ProductService: ProductService) { 
     //this.products$ = this.ProductService.getAll();              // forma original, no tiene keys
-    //this.subscription =this.productsKeys$ = this.ObtenerKeys()  // forma antigua, suando mi propio método para conseguir keys
+    //this.subscription =this.productsKeys$ = this.ObtenerKeys()  // forma antigua, usando mi propio método para conseguir keys
     //this.subscription = this.ProductService.getAll().subscribe(p =>  this.filteredProducts = this.products = p);   // forma nueva, no me vale porque pierdo las keys que tenia en productsKeys, yo no tengo p.$key
     
     this.subscription =this.productsKeys$ = this.ObtenerKeys().subscribe(p => {
@@ -63,7 +63,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  ObtenerKeys () : Observable<ProductKey[]>{        // He tenido que refactorizar para que devuelvas los tipos especificos, ya que si no, no podia asignarlos a mis props.
+  ObtenerKeys () : Observable<ProductKey[]>{        // He tenido que refactorizar para que devuelva los tipos especificos, ya que si no, no podia asignarlos a mis props.
     return this.ProductService.getAllSnapshot()
      .pipe(map(items => {            
        return items.map(a => {

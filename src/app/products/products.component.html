@@ -1,14 +1,24 @@
 <div class="row">
   <div class="col-3"> <!-- 3 de 12 columnas -->
-    <ul class="list-group">
-      <li *ngFor="let c of categories$ | async" class="list-group-item">
+    <div class="list-group"> <!-- class.active Hace un highlight si no hay categoria seleccionada -->
+      <a 
+      [class.active]="!category"     
+      routerLink="/"
+      class="list-group-item list-group-item-action">
+        All Categories</a> <!-- Estoy suscrito al activeRouter, cuando este cambia, filtro de nuevo -->
+      <a 
+      routerLink="/"  
+      [queryParams]="{ category: c.key }"    
+      *ngFor="let c of categories$ | async" 
+      class="list-group-item list-group-item-action"
+      [class.active]="category === c.key">
         {{ c.name }}
-      </li>
-    </ul>
+      </a>
+    </div>
   </div>
   <div class="col"> <!-- col es como col-9 porque automaticamente cogerá el espacio disponible -->
     <div class="row">
-        <ng-container  *ngFor="let p of products$ | async; let i = index">
+        <ng-container  *ngFor="let p of filteredProducts; let i = index">
           <div class="col">
             <div 
             class="card" style="width: 15rem;">

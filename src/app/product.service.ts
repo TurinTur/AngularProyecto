@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot, AngularFireObject } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 import { Product } from './models/product';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,21 @@ export class ProductService {
 
   getAll () {
     return this.db.list('/products').valueChanges();
+  }
+
+  getAllTipo () : Observable<Product[]>{
+    return this.db.list('/products').valueChanges().pipe(
+      map(arrayP => { 
+        return arrayP.map(producto => {
+             const data: Product = {'title':producto['title'],    
+                                   'price':producto['price'], 
+                                   'category':producto['category'],
+                                   'imageUrl':producto['imageUrl'],
+           };
+            return data;          
+          });
+      })
+    );
   }
 
   getAllSnapshot () : Observable<AngularFireAction<DatabaseSnapshot<{}>>[]> {
