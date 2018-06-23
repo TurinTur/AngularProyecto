@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
           <label for="category">Category</label>
-          <select #category="ngModel" [(ngModel)]="productTipo.category" name="category" id="category"  class="form-control" required>
+          <select #category="ngModel" [(ngModel)]="productTipo['category']" name="category" id="category"  class="form-control" required>
             <option value=""></option>
             <option *ngFor="let c of categories$ | async" [value]="c.key">{{c.name}}</option>
             
@@ -42,11 +42,11 @@
   </div> 
 
   <div class="col-md-6">   <!--  Preview de producto con bootsrap card en la parte derecha -->
-    <div class="card" style="width: 18rem;">
-       <!-- [src]="product.imageUrl" funciona, intelliSense de Angular Lang. Service se confunde porque no tiene tipo -->
+    <div *ngIf="productTipo.title" class="card" style="width: 18rem;">
+       <!-- [src]="product.imageUrl" funciona, intelliSense de Angular Lang. Service se confunde porque no tiene tipo. edit: el compilador tambien se queja -->
         <img class="card-img-top" [src]="productTipo['imageUrl']" *ngIf="productTipo['imageUrl']">  <!-- solo renderizar si existe ya -->
         <div class="card-body">
-          <h5 class="card-title">{{ productTipo.title }}</h5>
+          <h5 class="card-title">{{ productTipo['title'] }}</h5>
           <p class="card-text"> {{ productTipo['price'] | currency:'USD':'symbol' }}</p>
         </div>
       </div>

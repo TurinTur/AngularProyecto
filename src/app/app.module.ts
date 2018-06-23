@@ -60,7 +60,7 @@ import { ProductService } from './product.service';           // para salvar pro
     NgbModule.forRoot(),
     CustomFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent},
+      { path: '', component: ProductsComponent},
       { path: 'login', component: LoginComponent },
       { path: 'products', component: ProductsComponent},
       { path: 'shopping-cart', component: ShoppingCartComponent },

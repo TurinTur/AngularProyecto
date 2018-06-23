@@ -8,7 +8,7 @@ export class CategoryService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  getCategories () {
+  getAll () {
     return this.db.list('/categories',
       ref => ref.orderByChild('name')     // Ordenamos por nombre, ver https://github.com/angular/angularfire2/blob/master/docs/rtdb/querying-lists.md
     ).valueChanges();
