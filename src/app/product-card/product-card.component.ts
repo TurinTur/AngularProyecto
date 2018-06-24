@@ -1,5 +1,6 @@
+import { ShoppingCartService } from './../shopping-cart.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { Product } from '../models/product';
+import { Product, ProductKey } from '../models/product';
 
 @Component({
   selector: 'product-card',
@@ -9,10 +10,15 @@ import { Product } from '../models/product';
 export class ProductCardComponent {
 
 
-  @Input('product') product : Product;
+  @Input('product') product : ProductKey;
   @Input('show-actions') showActions : boolean = true;
 
-  constructor() { }
+  constructor(private cartService: ShoppingCartService) { 
+  }
 
-
+  addToCart(product: ProductKey)
+  {
+    this.cartService.addToCart(product);  // añado un producto al carrito
+   
+  }
 }

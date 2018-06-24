@@ -3,7 +3,7 @@ export interface Product {
     category: string,
     price: number,
     imageUrl: string
-    
+    //$key: string
   }
 
   export interface ProductKey 

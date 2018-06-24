@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot, AngularFireObject } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
-import { Product } from './models/product';
+import { Product, ProductKey } from './models/product';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class ProductService {
     return this.db.list('/products').valueChanges();
   }
 
-  getAllTipo () : Observable<Product[]>{
+  getAllTipo () : Observable<Product[]>{                          // Como getAll pero tipada
     return this.db.list('/products').valueChanges().pipe(
       map(arrayP => { 
         return arrayP.map(producto => {
@@ -34,7 +34,23 @@ export class ProductService {
     );
   }
 
-  getAllSnapshot () : Observable<AngularFireAction<DatabaseSnapshot<{}>>[]> {
+  getAllTipoKeys () : Observable<ProductKey[]>{                 // devuelvo los productos y sus claves
+    return this.db.list('/products').snapshotChanges()
+    .pipe(map(items => {            
+      return items.map(a => {
+        const data: Product = {'title':a.payload.val()['title'],     // forma antigua: const data = a.payload.val()
+                               'price':a.payload.val()['price'], 
+                               'category':a.payload.val()['category'],
+                               'imageUrl':a.payload.val()['imageUrl'],
+       };
+        const key = a.payload.key;
+        return {key, data};           // or {key, ...data} in case data is Obj
+      });
+   }));
+  }
+
+
+  getAllSnapshot () : Observable<AngularFireAction<DatabaseSnapshot<{}>>[]> {   // Develve el snapshot en vez del valueChanges
     return this.db.list('/products').snapshotChanges();
   }
 

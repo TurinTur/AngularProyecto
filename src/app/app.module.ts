@@ -34,7 +34,7 @@ import { UserService } from './user.service';                 // crud usuario DB
 import { AdminAuthGuard } from './admin-auth-guard.service';  // limita acceso a paginas de admin
 import { CategoryService } from './category.service';         // Obtiene las categorías de producto
 import { ProductService } from './product.service';           // para salvar productos
-
+import { ShoppingCartService } from './shopping-cart.service';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,8 @@ import { ProductService } from './product.service';           // para salvar pro
     AdminAuthGuard,
     UserService, 
     CategoryService,
-    ProductService],
+    ProductService,
+    ShoppingCartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
