@@ -42,13 +42,17 @@
   </div> 
 
   <div class="col-md-6">   <!--  Preview de producto con bootsrap card en la parte derecha -->
-    <div *ngIf="productTipo.title" class="card" style="width: 18rem;">
-       <!-- [src]="product.imageUrl" funciona, intelliSense de Angular Lang. Service se confunde porque no tiene tipo. edit: el compilador tambien se queja -->
-        <img class="card-img-top" [src]="productTipo['imageUrl']" *ngIf="productTipo['imageUrl']">  <!-- solo renderizar si existe ya -->
+
+    <product-card [product]="productTipo" [show-actions]="false"></product-card>  
+
+<!-- [src]="product.imageUrl" funciona, intelliSense de Angular Lang. Service se confunde porque no tiene tipo. edit: el compilador tambien se queja -->
+   <!--  <div *ngIf="productTipo.title" class="card" style="width: 18rem;">
+        <img class="card-img-top" [src]="productTipo['imageUrl']" *ngIf="productTipo['imageUrl']">  
         <div class="card-body">
           <h5 class="card-title">{{ productTipo['title'] }}</h5>
           <p class="card-text"> {{ productTipo['price'] | currency:'USD':'symbol' }}</p>
         </div>
-      </div>
+    </div> -->
+    
   </div> 
 </div>

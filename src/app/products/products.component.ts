@@ -13,12 +13,11 @@ import { switchMap } from 'rxjs/operators';
 export class ProductsComponent  {
 
   products: Product[] = [];
-  categories$;
   category: string ;
   filteredProducts: Product[];
+  
   constructor(
     productService: ProductService, 
-    categoryService: CategoryService, 
     route: ActivatedRoute) { 
 
     //this.products= productService.getAll(); // Comentado porque hemos pasado de products$ a products[]
@@ -49,7 +48,7 @@ export class ProductsComponent  {
           this.products.filter(p=> p.category === this.category) : this.products;
       });
     
-    this.categories$ = categoryService.getAll();
+
     
   }
 

@@ -25,6 +25,8 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { ProductFilterComponent } from './products/product-filter/product-filter.component'
+import { ProductCardComponent } from './product-card/product-card.component'
 // Servicios
 import { AuthService } from './auth.service';                 // logeo usuario
 import { AuthGuard } from './auth-guard.service';             // limita acceso a usuarios logeados
@@ -32,7 +34,6 @@ import { UserService } from './user.service';                 // crud usuario DB
 import { AdminAuthGuard } from './admin-auth-guard.service';  // limita acceso a paginas de admin
 import { CategoryService } from './category.service';         // Obtiene las categorías de producto
 import { ProductService } from './product.service';           // para salvar productos
-
 
 
 @NgModule({
@@ -48,7 +49,9 @@ import { ProductService } from './product.service';           // para salvar pro
     AdminProductsComponent,
     AdminOrdersComponent,
     LoginComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    ProductFilterComponent,
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,

@@ -1,36 +1,14 @@
 <div class="row">
-  <div class="col-3"> <!-- 3 de 12 columnas -->
-    <div class="list-group"> <!-- class.active Hace un highlight si no hay categoria seleccionada -->
-      <a 
-      [class.active]="!category"     
-      routerLink="/"
-      class="list-group-item list-group-item-action">
-        All Categories</a> <!-- Estoy suscrito al activeRouter, cuando este cambia, filtro de nuevo -->
-      <a 
-      routerLink="/"  
-      [queryParams]="{ category: c.key }"    
-      *ngFor="let c of categories$ | async" 
-      class="list-group-item list-group-item-action"
-      [class.active]="category === c.key">
-        {{ c.name }}
-      </a>
-    </div>
+  <div class="col-2"> <!-- 3 de 12 columnas -->
+    <product-filter [category]="category" ></product-filter>
   </div>
   <div class="col"> <!-- col es como col-9 porque automaticamente cogerá el espacio disponible -->
     <div class="row">
         <ng-container  *ngFor="let p of filteredProducts; let i = index">
           <div class="col">
-            <div 
-            class="card" style="width: 15rem;">
-              <img class="card-img-top" src="{{ p.imageUrl }}" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">{{ p.title }} </h5>
-                <p class="card-text"> {{ p.price | currency:'USD':'symbol' }} </p>
-                <a href="#" class="btn btn-primary">Add to Card</a>
-              </div>
-            </div>
+              <product-card [product]="p"></product-card>
           </div>
-          <div *ngIf="(i+1)%2===0" class="w-100"></div>
+          <div *ngIf="(i+1)%3===0" class="w-100"></div>
         </ng-container>
       </div>
   </div>
