@@ -6,11 +6,19 @@ export interface Product {
     //$key: string
   }
 
-  export interface ProductKey 
+  export interface ProductKey
     {
       key: string,
       data: Product
     }
 
-  
-  
+    export interface ShoppingCartItem
+    {
+      product: Product,
+      quantity: number
+    }
+
+    export interface ShoppingCart
+    {
+      product: ShoppingCartItem[]
+    }
