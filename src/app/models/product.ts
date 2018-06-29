@@ -12,13 +12,5 @@ export interface Product {
       data: Product
     }
 
-    export interface ShoppingCartItem
-    {
-      product: Product,
-      quantity: number
-    }
 
-    export interface ShoppingCart
-    {
-      product: ShoppingCartItem[]
-    }
+  

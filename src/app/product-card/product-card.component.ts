@@ -17,13 +17,17 @@ export class ProductCardComponent {
   constructor(private cartService: ShoppingCartService) {
   }
 
-  addToCart(product: ProductKey)
+  addToCart()
   {
-    this.cartService.addToCart(product);  // añado un producto al carrito
+    this.cartService.addToCart(this.product);  // añado un producto al carrito
+  }
+
+  removeFromCart(){
+    this.cartService.removeFromCart(this.product);
   }
 
   getQuantity () {
-    if (!this.shoppingCart) return 0;       // Nos salimos si todvaía no hay shopping cart
+    if (!this.shoppingCart) return 0;       // Nos salimos si todavía no hay shopping cart
 
     let item = this.shoppingCart.items[this.product.key]
     return item ? item.quantity : 0;        // Devolvemos la cantidad del shopping Cart item
