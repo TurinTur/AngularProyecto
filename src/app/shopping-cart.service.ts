@@ -1,7 +1,7 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 import { ProductKey } from './models/product';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { ShoppingCart } from './models/shopping-cart';
 import { ShoppingCartItem } from './models/shopping-cart-item';
 
@@ -18,10 +18,14 @@ export class ShoppingCartService {
     })
   }
 
-  //getCart(cartId: string)
   public async getCart(){
     let cartId= await this.getOrCreateCartId();   //quiero el objeto directamente, asi que me espero en vez de implementar algo asincrono
-    return this.db.object<ShoppingCart>('shopping-carts/' + cartId).valueChanges();
+    return this.db.object<ShoppingCart>('shopping-carts/' + cartId).valueChanges()   // ShoppingCart es realmente una anotación para Typescript, el objeto que me devuelve Firebase no tiene que ser del mismo tipo.
+                                                                                     // Por ej si mi objeto modelo tiene funciones, esas funciones no estarán disponibles, en el objeto de firebase solo hay
+    .pipe(map(                                                                       //  propiedades. Asi pues mapeo del objeto de FB a mi objeto, usando un constructor
+       x => new ShoppingCart(x.items)
+      ));
+                                
   }
 
 

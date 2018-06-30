@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
 import { AppUser } from './../models/app-user';
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../auth.service';
 import { ShoppingCartService } from '../shopping-cart.service';
+import { ShoppingCart } from '../models/shopping-cart';
 
 
 @Component({
@@ -13,6 +15,7 @@ import { ShoppingCartService } from '../shopping-cart.service';
 export class BdNavbarComponent implements OnInit {
 
   appUser : AppUser;
+  cart$: Observable<ShoppingCart>;
 
   // auth incluye tambien el objeto user. funciona con private en test, pero en la compilación de prod necesita que cualquier cosa usada en el template sea público
   // cambiado a private posteriormente porque he dejado de usarla directamente en el template
@@ -23,12 +26,8 @@ export class BdNavbarComponent implements OnInit {
     }
 
   async ngOnInit() {
-    let cart$ = await this.shoppingCartService.getCart();
-    cart$.subscribe(cart =>{
-      for (let productId in cart.items){
-        cart.items[productId].quantity
-      }
-    })
+    this.cart$ = await this.shoppingCartService.getCart();   // En cuanto haya un cambio en el shopping Cart, la subscripción se activará y reflejará el cambio
+    
   }
 
   logout() {
