@@ -10,17 +10,19 @@ export class ShoppingCart
   //constructor(public items:  ShoppingCartItem[] ) { 
     this.items = items || {}; //{}}
 
-    for (let productId in items){                 // items tiene que seguir llamándose items porque así es llamado en FB y ShoppingCart es usado en el tipado de db.object<ShoppingCart> en el servicio
-      const item = items[productId]             // coger productId de aqui?
+    for (let productId in items){           // items tiene que seguir llamándose items porque así es llamado en FB y ShoppingCart es usado en el tipado de db.object<ShoppingCart> en el servicio
+      const item = items[productId]           
 
       //this.itemsArray.push(items[productId]);
       //this.itemsArray.push( new ShoppingCartItem(item.product, item.quantity) );    // para poder usar el get totalPrice que no existe en FB, tengo que crear yo el objeto ShopCartItem
 
-      let sci = new ShoppingCartItem();     //  He cambiado el diseño de ShoppingCartItem, antes tenia un Product y una cantidad, ahora tiene los campos de product directamente
-      Object.assign(sci, item);       // Assign copia todas las propiedades del param2 al param1 (title, imageurl, price, etc)
-      sci.key = productId;
-      sci.product = {data: {title:item.title, category:'',imageUrl:item.imageUrl,price:item.price}, key: productId}
-      this.itemsArray.push(sci);
+      //let sci = new ShoppingCartItem();     //  He cambiado el diseño de ShoppingCartItem, antes tenia un Product y una cantidad, ahora tiene los campos de product directamente
+
+      //Object.assign(sci, item);       // Assign copia todas las propiedades del param2 al param1 (title, imageurl, price, etc)
+      //sci.key = productId;
+      
+      const productKey =  {data: {title:item.title, category:'',imageUrl:item.imageUrl,price:item.price}, key: productId}  // ahora ShoppingCartItem tiene propiedades del producto como en la BD y un productKey para actualizar el carro 
+      this.itemsArray.push( new ShoppingCartItem({...item, product: productKey, key:productId}));  //... operador spread, es como si incluyese cada subitem en la declaración de objeto (title:title, price:price, etc)
       //console.log("item en push : ")
       //console.log(item)
     }

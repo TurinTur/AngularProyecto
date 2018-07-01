@@ -13,10 +13,25 @@ export class ShoppingCartService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  private create() {
-   return this.db.list('/shopping-carts').push({
-      dateCreated: new Date().getTime()
-    })
+  async clearCart() {
+    let cartId = await this.getOrCreateCartId();
+    this.db.object('shopping-carts/' + cartId + '/items/').remove();
+  }
+
+  async addToCart(product: ProductKey){
+    this.updateItem(product,1);  //refactor. sumo 1. no tenemos que usar await en la llamada, porque no obtenemos ningún valor aqui, nos da igual cuando termine
+  }
+
+  async removeFromCart(product: ProductKey) {
+ /*    let cartId = await this.getOrCreateCartId();
+    let itemObject = this.db.object('shopping-carts/' + cartId + '/items/' + product.key)
+    let item$ = this.getItem(cartId,product.key);
+    item$
+    .pipe(take(1))
+    .subscribe( item => {
+      itemObject.update({ product: product.data, quantity: (item) ? item.quantity- 1 : 0});
+    }); */
+    this.updateItem(product,-1); //refactor. resto 1
   }
 
   public async getCart() {
@@ -53,12 +68,17 @@ export class ShoppingCartService {
 
   }
 
+  private create() {
+    return this.db.list('/shopping-carts').push({
+       dateCreated: new Date().getTime()
+     })
+   }
+
   private async addToCart_old(product: ProductKey) {              // addToCart => getOrCreateCartId => create (o ls.get) => meto el producto en el carrito en la bd
     let cartId = await this.getOrCreateCartId();
     let itemObject = this.db.object('shopping-carts/' + cartId + '/items/' + product.key)                 // operaciones de escritura (update, set) sobre el objeto
     //let item$ = this.db.object('shopping-carts/' + cartId + '/items/' + product.key).snapshotChanges();   // necesito obs de snapshot para .exists() y obtener valores
     let item$ = this.getItem(cartId,product.key);
-
 
     item$
     .pipe(take(1))
@@ -77,35 +97,24 @@ export class ShoppingCartService {
 
   }
 
-  async addToCart(product: ProductKey){
-    this.updateItem(product,1);  //refactor. sumo 1. no tenemos que usar await en la llamada, porque no obtenemos ningún valor aqui, nos da igual cuando termine
-  }
-
-  async removeFromCart(product: ProductKey) {
- /*    let cartId = await this.getOrCreateCartId();
-    let itemObject = this.db.object('shopping-carts/' + cartId + '/items/' + product.key)
-    let item$ = this.getItem(cartId,product.key);
-    item$
-    .pipe(take(1))
-    .subscribe( item => {
-      itemObject.update({ product: product.data, quantity: (item) ? item.quantity- 1 : 0});
-    }); */
-    this.updateItem(product,-1); //refactor. resto 1
-  }
-
-  private async updateItem(product: ProductKey, change: number){
+  private async updateItem(product: ProductKey, change: number){    // usado por addToCart y remoeveFromCart. change será +1 y -1 respectivamente
     let cartId = await this.getOrCreateCartId();
     let itemObject = this.db.object('shopping-carts/' + cartId + '/items/' + product.key)
     let item$ = this.getItem(cartId,product.key);
     item$
     .pipe(take(1))
     .subscribe( item => {
-      itemObject.update({ 
-        //product: product.data, 
-        title: product.data.title,
-        imageUrl: product.data.imageUrl,
-        price: product.data.price,
-        quantity: (item) ? item.quantity + change : change});
+      let quantity = (item) ? item.quantity + change : change;    // calculo nueva cantidad
+      if (quantity === 0) itemObject.remove();                    // si es 0, elimino el objeto de la BD
+      else {
+        itemObject.update({ 
+          //product: product.data, 
+          title: product.data.title,
+          imageUrl: product.data.imageUrl,
+          price: product.data.price,
+          quantity: quantity});
+      }
+
     });
   }
 

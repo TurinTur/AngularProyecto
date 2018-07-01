@@ -1,28 +1,34 @@
 <h1>Shopping Cart</h1>
-<ng-container *ngIf="cart$ | async as cart">
+<div class="row col-10" *ngIf="cart$ | async as cart">
   <p>
     You have {{ cart.totalItemsCount }} items in your shopping cart.
   </p>
   <table class="table">
     <thead>
+      <th></th>
       <th>Product</th>
-      <th>Quantity</th>
-      <th>Price</th>
+      <th class="text-center" style="width: 230px">Quantity</th>
+      <th class="text-right" style="width: 200px">Price</th>
     </thead>
     <tbody >
       <tr *ngFor="let item of cart.itemsArray">    <!-- itemsArray definida en ShoppingCart -->
+        <td><div [style.backgroundImage]="'url(' + item.imageUrl +')'" class="thumbnail"></div></td>  <!-- Uso un div porque con background-size: cover conservo el aspect ratio -->
           <td>{{ item.title }}</td>
           <!-- <td>{{ item.quantity }}</td> -->
           <td><product-quantity [product]="item.product" [shopping-cart]="cart"></product-quantity></td>
-          <td>{{ item.totalPrice | currency:'USD' }}</td>  <!-- Podría hacer price * quantity aqui pero es mejor dejar la lógica par las clases, no el template -->
+          <td class="text-right">{{ item.totalPrice | currency:'USD' }}</td>  <!-- Podría hacer price * quantity aqui pero es mejor dejar la lógica par las clases, no el template -->
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <th></th>
+        <th></th>
         <th> </th>
-        <th>{{ cart.totalPrice | currency:'USD'  }} </th>
+        <th class="text-right">{{ cart.totalPrice | currency:'USD'  }} </th>
       </tr>
     </tfoot>
   </table>
-</ng-container>
+  <button 
+  (click)="clearCart()"
+  class="btn btn-danger btn-sm">Clear Shopping Cart</button>
+</div>
