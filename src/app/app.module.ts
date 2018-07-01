@@ -35,8 +35,8 @@ import { UserService } from './user.service';                 // crud usuario DB
 import { AdminAuthGuard } from './admin-auth-guard.service';  // limita acceso a paginas de admin
 import { CategoryService } from './category.service';         // Obtiene las categorías de producto
 import { ProductService } from './product.service';           // para salvar productos
-import { ShoppingCartService } from './shopping-cart.service';
-
+import { ShoppingCartService } from './shopping-cart.service'; // shopping cart
+import { OrderService } from './order.service';                // Orders
 
 @NgModule({
   declarations: [
@@ -88,7 +88,8 @@ import { ShoppingCartService } from './shopping-cart.service';
     UserService, 
     CategoryService,
     ProductService,
-    ShoppingCartService],
+    ShoppingCartService,
+    OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,7 +3,7 @@
     <product-filter [category]="category" ></product-filter>
   </div>
   <div class="col"> <!-- col es como col-9 porque automaticamente cogerá el espacio disponible -->
-    <div class="row">
+    <div class="row" *ngIf="cart$ | async as cart" >  <!-- mejor desempaquetar cart$ asqui, fuera del for, para que no lo ejecute muchas veces -->
         <ng-container  *ngFor="let p of filteredProducts; let i = index">
           <div class="col">
               <product-card [product]="p" [shopping-cart]="cart"></product-card>

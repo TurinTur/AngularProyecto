@@ -7,8 +7,7 @@ export class ShoppingCart
 
   //constructor(public items: ShoppingCartItem[]) {}    // public inicializa la propia con getter y setter. necesito el constructor porque ahora mapeo el objeto de FB a este objeto
   constructor(public items: { [productId: string]: ShoppingCartItem} ) { // cambiado para representar mejor que tengo un objeto con keys/value dentro. key productId, value ShoppingCartItem
-  //constructor(public items:  ShoppingCartItem[] ) { 
-    this.items = items || {}; //{}}
+    this.items = items || {};
 
     for (let productId in items){           // items tiene que seguir llamándose items porque así es llamado en FB y ShoppingCart es usado en el tipado de db.object<ShoppingCart> en el servicio
       const item = items[productId]           
