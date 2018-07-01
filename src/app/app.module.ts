@@ -27,6 +27,7 @@ import { LoginComponent } from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component'
 import { ProductCardComponent } from './product-card/product-card.component'
+import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
 // Servicios
 import { AuthService } from './auth.service';                 // logeo usuario
 import { AuthGuard } from './auth-guard.service';             // limita acceso a usuarios logeados
@@ -35,6 +36,7 @@ import { AdminAuthGuard } from './admin-auth-guard.service';  // limita acceso a
 import { CategoryService } from './category.service';         // Obtiene las categorías de producto
 import { ProductService } from './product.service';           // para salvar productos
 import { ShoppingCartService } from './shopping-cart.service';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { ShoppingCartService } from './shopping-cart.service';
     LoginComponent,
     ProductFormComponent,
     ProductFilterComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    ProductQuantityComponent
   ],
   imports: [
     BrowserModule,

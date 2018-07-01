@@ -31,7 +31,7 @@ export class BdNavbarComponent implements OnInit {
   }
 
   logout() {
-    console.log("clickeo logout");
+    //console.log("clickeo logout");
     this.auth.logout();
   }
 }

@@ -1,4 +1,5 @@
 import { ShoppingCartItem } from "./shopping-cart-item";
+import { ProductKey } from "./product";
 
 export class ShoppingCart
 {
@@ -6,10 +7,22 @@ export class ShoppingCart
 
   //constructor(public items: ShoppingCartItem[]) {}    // public inicializa la propia con getter y setter. necesito el constructor porque ahora mapeo el objeto de FB a este objeto
   constructor(public items: { [productId: string]: ShoppingCartItem} ) { // cambiado para representar mejor que tengo un objeto con keys/value dentro. key productId, value ShoppingCartItem
+  //constructor(public items:  ShoppingCartItem[] ) { 
+    this.items = items || {}; //{}}
+
     for (let productId in items){                 // items tiene que seguir llamándose items porque así es llamado en FB y ShoppingCart es usado en el tipado de db.object<ShoppingCart> en el servicio
-      const item = items[productId]
+      const item = items[productId]             // coger productId de aqui?
+
       //this.itemsArray.push(items[productId]);
-      this.itemsArray.push( new ShoppingCartItem(item.product, item.quantity) );    // para poder usar el get totalPrice que no existe en FB, tengo que crear yo el objeto ShopCartItem
+      //this.itemsArray.push( new ShoppingCartItem(item.product, item.quantity) );    // para poder usar el get totalPrice que no existe en FB, tengo que crear yo el objeto ShopCartItem
+
+      let sci = new ShoppingCartItem();     //  He cambiado el diseño de ShoppingCartItem, antes tenia un Product y una cantidad, ahora tiene los campos de product directamente
+      Object.assign(sci, item);       // Assign copia todas las propiedades del param2 al param1 (title, imageurl, price, etc)
+      sci.key = productId;
+      sci.product = {data: {title:item.title, category:'',imageUrl:item.imageUrl,price:item.price}, key: productId}
+      this.itemsArray.push(sci);
+      //console.log("item en push : ")
+      //console.log(item)
     }
   } 
 
@@ -32,5 +45,18 @@ export class ShoppingCart
     }
     return sum;
   }
-
+  
+  getQuantity (product: ProductKey) { 
+    //console.log("p en getQ " )
+    //console.log(product )
+    let item;
+    if (product != null){
+      item= this.items[product.key]
+    }
+    else
+    {
+      item=0;
+    }
+    return item ? item.quantity : 0;        // Devolvemos la cantidad del shopping Cart item
+  }
 }

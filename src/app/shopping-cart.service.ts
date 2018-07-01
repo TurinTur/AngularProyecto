@@ -24,8 +24,19 @@ export class ShoppingCartService {
     return this.db.object<ShoppingCart>('shopping-carts/' + cartId).valueChanges()   // ShoppingCart es realmente una anotación para Typescript, el objeto que me devuelve Firebase no tiene que ser del mismo tipo.
                                                                                      // Por ej si mi objeto modelo tiene funciones, esas funciones no estarán disponibles, en el objeto de firebase solo hay
     .pipe(map(                                                                       //  propiedades. Asi pues mapeo del objeto de FB a mi objeto, usando un constructor
-       x => new ShoppingCart(x.items)                                                // Mapeo de un ShoppingCart que realmente tiene un objeto con claves items y dateCreated a un ShoppingCart real con funciones
-      ));
+       x => {
+         //console.log(x) ; 
+          let cart;
+         if (x == null){
+            cart = {};
+         }
+         else
+         {
+           cart= x.items;
+         } 
+         
+         return new ShoppingCart(cart)                                                // Mapeo de un ShoppingCart que realmente tiene un objeto con claves items y dateCreated a un ShoppingCart real con funciones
+       }));
                                 
   }
 
@@ -67,7 +78,7 @@ export class ShoppingCartService {
   }
 
   async addToCart(product: ProductKey){
-    this.updateItemQuantity(product,1);  //refactor. sumo 1. no tenemos que usar await en la llamada, porque no obtenemos ningún valor aqui, nos da igual cuando termine
+    this.updateItem(product,1);  //refactor. sumo 1. no tenemos que usar await en la llamada, porque no obtenemos ningún valor aqui, nos da igual cuando termine
   }
 
   async removeFromCart(product: ProductKey) {
@@ -79,17 +90,22 @@ export class ShoppingCartService {
     .subscribe( item => {
       itemObject.update({ product: product.data, quantity: (item) ? item.quantity- 1 : 0});
     }); */
-    this.updateItemQuantity(product,-1); //refactor. resto 1
+    this.updateItem(product,-1); //refactor. resto 1
   }
 
-  private async updateItemQuantity(product: ProductKey, change: number){
+  private async updateItem(product: ProductKey, change: number){
     let cartId = await this.getOrCreateCartId();
     let itemObject = this.db.object('shopping-carts/' + cartId + '/items/' + product.key)
     let item$ = this.getItem(cartId,product.key);
     item$
     .pipe(take(1))
     .subscribe( item => {
-      itemObject.update({ product: product.data, quantity: (item) ? item.quantity + change : change});
+      itemObject.update({ 
+        //product: product.data, 
+        title: product.data.title,
+        imageUrl: product.data.imageUrl,
+        price: product.data.price,
+        quantity: (item) ? item.quantity + change : change});
     });
   }
 

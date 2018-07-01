@@ -25,7 +25,7 @@ export class AuthService {
   login (){
      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/'; // return url es definido en el método CanActivate de auth-guard
      localStorage.setItem('returnUrl',returnUrl); // redirigimos a esta url después del login
-     console.log('url guardada en localStorage ' + returnUrl)
+     //console.log('url guardada en localStorage ' + returnUrl)
      //this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());  // Hay varias formas de mostrar el logeo
      this.afAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
      //this.afAuth.authState.subscribe(x => {console.log(x)})
