@@ -79,7 +79,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   filter(query: string){
-    console.log(query);
+    //console.log(query);
     let filteredProducts = (query) ?   // Si hay query, aplicar el filtro
       this.products.filter(p => p.data.title.toLowerCase().includes(query.toLowerCase())) : this.products; // si no, coger el array inicial
     

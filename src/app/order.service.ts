@@ -1,6 +1,8 @@
 import { ShoppingCartService } from './shopping-cart.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
+import { Query } from '@firebase/database';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +19,12 @@ export class OrderService {
   }
 
   getOrders () {
-    return this.db.list('/orders');
+    return this.db.list('/orders').valueChanges();
   }
 
- /*  getOrdersByUser (userId: string){
-    return this.db.list('/orders', {
-      query: {
-        orderByChild: 'userId',
-        equalTo: userId
-      }
-    });
-  } */
+*  getOrdersByUser (userId: string){
+    return this.db.list('/orders', ref => ref.orderByChild('userId').equalTo(userId)).valueChanges();
+  } 
+
+
 }
