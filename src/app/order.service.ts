@@ -1,3 +1,4 @@
+import { ShoppingCartService } from './shopping-cart.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 
@@ -6,9 +7,25 @@ import { Injectable } from '@angular/core';
 })
 export class OrderService {
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase, private shoppingCartService: ShoppingCartService) { }
 
-  storeOrder(order){
-    return this.db.list('/orders').push(order);
+  async placeOrder(order){
+    let result = await this.db.list('/orders').push(order); //Estas dos lineas se deberían hacer en una transacción, y si una de las dos falla, ninguna de las dos debería ejecutarse.
+    this.shoppingCartService.clearCart();
+    
+    return result;
   }
+
+  getOrders () {
+    return this.db.list('/orders');
+  }
+
+ /*  getOrdersByUser (userId: string){
+    return this.db.list('/orders', {
+      query: {
+        orderByChild: 'userId',
+        equalTo: userId
+      }
+    });
+  } */
 }

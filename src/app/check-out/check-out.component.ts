@@ -1,63 +1,32 @@
-import { AuthService } from './../auth.service';
-import { OrderService } from './../order.service';
-import { Subscription } from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { ShoppingCart } from './../models/shopping-cart';
 import { ShoppingCartService } from './../shopping-cart.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-check-out',
   templateUrl: './check-out.component.html',
   styleUrls: ['./check-out.component.css']
 })
-export class CheckOutComponent implements OnInit, OnDestroy {
+export class CheckOutComponent implements OnInit{
 
+  //cartSubscription : Subscription;  // ya no me hace falta la subscripción, voy a unwrappear en el template y pasar el objeto a los form hijos
+  //cart: ShoppingCart ;
+  cart$: Observable<ShoppingCart>;
 
-  shipping : { 
-    name : String  , 
-    addressLine1: String, 
-    addressLine2: String, 
-    city: String} = {name:'',addressLine1:'',addressLine2:'',city:''};   
-  cart: ShoppingCart ;
-  cartSubscription : Subscription;
-  userSubscription: Subscription;
-  userId: string;
-
-  constructor(
-    private shoppingCartService: ShoppingCartService, 
-    private orderService: OrderService,
-    private AuthService: AuthService) { }
+  constructor(private shoppingCartService: ShoppingCartService ) { }
 
   async ngOnInit() {
-    let cart$ = await this.shoppingCartService.getCart();                                     // con await me quito la promesa
-    this.cartSubscription = cart$.subscribe(cart => this.cart=cart);                          // almaceno la subscripción para desuscribirme leugo
-    this.userSubscription = this.AuthService.user$.subscribe(user => this.userId = user.uid); // uid es el identificador de usuario único de FB
+    this.cart$ = await this.shoppingCartService.getCart();                                   // con await me quito la promesa (nota: antes era una var local, ahora un field)
+    //this.cartSubscription = cart$.subscribe(cart => this.cart=cart);                       // almaceno la subscripción para desuscribirme leugo
+    
   }
 
-  ngOnDestroy(): void {
-    this.cartSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
-  }
+  //ngOnDestroy(): void {
+    //this.cartSubscription.unsubscribe();
+  //}
   
 
-  placeOrder() {    
-    let order = {
-      userId: this.userId,
-      datePlaced: new Date().getTime(),
-      shipping: this.shipping,
-      items: this.cart.itemsArray.map(i => {    // porque estoy usando un map en un array, el resultado va a ser un un array en FB, con elementos 0, 1, 2, etc
-        return {
-          product: {
-            title: i.title,
-            imageUrl: i.imageUrl,
-            price: i.price
-          },
-          quantity: i.quantity,
-          totalPrice: i.totalPrice        // guardo el precio calculado, por facilidad
-        }
-      })
-    }
-    console.log(order)
-    this.orderService.storeOrder(order);
-  } 
+
 }

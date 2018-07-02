@@ -12,7 +12,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomFormsModule } from 'ng2-validation';
-import { DataTableModule } from '@mindsorg/ng-data-table';
+import { DataTableModule } from '@mindsorg/ng-data-table';          // Data table en admin products
 // componentes
 import { BdNavbarComponent } from './bd-navbar/bd-navbar.component';
 import { HomeComponent } from './home/home.component';
@@ -27,7 +27,9 @@ import { LoginComponent } from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component'
 import { ProductCardComponent } from './product-card/product-card.component'
-import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { ProductQuantityComponent } from './product-quantity/product-quantity.component';   // Usado en productCard (en ProductsComp) y ShoppingCartCompt
+import { ShoppingCartSummaryComponent } from './shopping-cart-summary/shopping-cart-summary.component';
+import { ShippingFormComponent } from './shipping-form/shipping-form.component'
 // Servicios
 import { AuthService } from './auth.service';                 // logeo usuario
 import { AuthGuard } from './auth-guard.service';             // limita acceso a usuarios logeados
@@ -36,7 +38,8 @@ import { AdminAuthGuard } from './admin-auth-guard.service';  // limita acceso a
 import { CategoryService } from './category.service';         // Obtiene las categorías de producto
 import { ProductService } from './product.service';           // para salvar productos
 import { ShoppingCartService } from './shopping-cart.service'; // shopping cart
-import { OrderService } from './order.service';                // Orders
+import { OrderService } from './order.service';                // Orders;
+
 
 @NgModule({
   declarations: [
@@ -54,7 +57,9 @@ import { OrderService } from './order.service';                // Orders
     ProductFormComponent,
     ProductFilterComponent,
     ProductCardComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    ShoppingCartSummaryComponent,
+    ShippingFormComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +76,7 @@ import { OrderService } from './order.service';                // Orders
       { path: 'products', component: ProductsComponent},
       { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'check-out', component: CheckOutComponent, canActivate:[AuthGuard] },
-      { path: 'order-success', component: OrderSuccessComponent, canActivate:[AuthGuard] },
+      { path: 'order-success/:id', component: OrderSuccessComponent, canActivate:[AuthGuard] },
       { path: 'my/orders', component: MyOrdersComponent, canActivate:[AuthGuard] },
       { path: 'admin/products/new', component: ProductFormComponent, canActivate:[AuthGuard, AdminAuthGuard] },   // de mas especifico
       { path: 'admin/products/:id', component: ProductFormComponent, canActivate:[AuthGuard, AdminAuthGuard] },
