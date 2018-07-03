@@ -1,3 +1,4 @@
+
 // core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -21,24 +22,22 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { OrderSuccessComponent } from './order-success/order-success.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
-import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
-import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component'
-import { ProductCardComponent } from './product-card/product-card.component'
-import { ProductQuantityComponent } from './product-quantity/product-quantity.component';   // Usado en productCard (en ProductsComp) y ShoppingCartCompt
 import { ShoppingCartSummaryComponent } from './shopping-cart-summary/shopping-cart-summary.component';
 import { ShippingFormComponent } from './shipping-form/shipping-form.component'
 // Servicios
-import { AuthService } from './auth.service';                 // logeo usuario
-import { AuthGuard } from './auth-guard.service';             // limita acceso a usuarios logeados
-import { UserService } from './user.service';                 // crud usuario DB
-import { AdminAuthGuard } from './admin-auth-guard.service';  // limita acceso a paginas de admin
-import { CategoryService } from './category.service';         // Obtiene las categorías de producto
-import { ProductService } from './product.service';           // para salvar productos
-import { ShoppingCartService } from './shopping-cart.service'; // shopping cart
-import { OrderService } from './order.service';                // Orders;
+//import { AdminAuthGuard } from './admin/services/admin-auth-guard.service';  // limita acceso a paginas de admin
+import { UserService } from 'shared/services/user.service';                 // crud usuario DB
+import { AuthService } from 'shared/services/auth.service';                 // logeo usuario
+import { CategoryService } from 'shared/services/category.service';         // Obtiene las categorías de producto
+import { ProductService } from 'shared/services/product.service';           // para salvar productos
+import { ShoppingCartService } from 'shared/services/shopping-cart.service'; // shopping cart
+import { OrderService } from 'shared/services/order.service';                // Orders;
+import { AuthGuard } from 'shared/services/auth-guard.service';             // limita acceso a usuarios logeados
+// Modulos
+import { SharedModule } from './shared/shared.module';
+import { AdminModule } from 'src/app/admin/admin.module';
 
 
 @NgModule({
@@ -51,18 +50,16 @@ import { OrderService } from './order.service';                // Orders;
     CheckOutComponent,
     OrderSuccessComponent,
     MyOrdersComponent,
-    AdminProductsComponent,
-    AdminOrdersComponent,
     LoginComponent,
-    ProductFormComponent,
     ProductFilterComponent,
-    ProductCardComponent,
-    ProductQuantityComponent,
     ShoppingCartSummaryComponent,
-    ShippingFormComponent
+    ShippingFormComponent,
+
   ],
   imports: [
     BrowserModule,
+    SharedModule,     // Modulo Shared
+    AdminModule,      
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -78,23 +75,21 @@ import { OrderService } from './order.service';                // Orders;
       { path: 'check-out', component: CheckOutComponent, canActivate:[AuthGuard] },
       { path: 'order-success/:id', component: OrderSuccessComponent, canActivate:[AuthGuard] },
       { path: 'my/orders', component: MyOrdersComponent, canActivate:[AuthGuard] },
-      { path: 'admin/products/new', component: ProductFormComponent, canActivate:[AuthGuard, AdminAuthGuard] },   // de mas especifico
-      { path: 'admin/products/:id', component: ProductFormComponent, canActivate:[AuthGuard, AdminAuthGuard] },
-      { path: 'admin/products', component: AdminProductsComponent, canActivate:[AuthGuard, AdminAuthGuard] },     // a menos especifico
-      { path: 'admin/orders', component: AdminOrdersComponent, canActivate:[AuthGuard,AdminAuthGuard] }
       
     ])
 
   ],
   providers: [
-    AuthService,
-    AuthGuard,
-    AdminAuthGuard,
-    UserService, 
-    CategoryService,
-    ProductService,
-    ShoppingCartService,
-    OrderService],
+    //AdminAuthGuard,
+      AuthService,
+      AuthGuard,
+      UserService, 
+      CategoryService,
+      ProductService,
+      ShoppingCartService,
+      OrderService
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

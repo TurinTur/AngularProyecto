@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from 'shared/services/auth.service';
 import { map, switchMap } from 'rxjs/operators';
-import { UserService } from './user.service';
+import { UserService } from 'shared/services/user.service';
 import { Observable } from 'rxjs';
-import { AngularFireObject } from 'angularfire2/database';
-import { AppUser } from './models/app-user';
+//import { AngularFireObject } from 'angularfire2/database';
+//import { AppUser } from 'shared/models/app-user';
 
 @Injectable({
   providedIn: 'root'

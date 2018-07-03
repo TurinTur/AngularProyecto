@@ -6,7 +6,7 @@ import { Observable,of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { ActivatedRoute } from '@angular/router';
-import { AppUser } from './models/app-user';
+import { AppUser } from 'shared/models/app-user';
 
 @Injectable({
   providedIn: 'root'

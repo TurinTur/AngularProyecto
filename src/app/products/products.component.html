@@ -6,7 +6,7 @@
     <div class="row" *ngIf="cart$ | async as cart" >  <!-- mejor desempaquetar cart$ asqui, fuera del for, para que no lo ejecute muchas veces -->
         <ng-container  *ngFor="let p of filteredProducts; let i = index">
           <div class="col">
-              <product-card [product]="p" [shopping-cart]="cart"></product-card>
+            <product-card [product]="p" [shopping-cart]="cart"></product-card>
           </div>
           <div *ngIf="(i+1)%3===0" class="w-100"></div>
         </ng-container>

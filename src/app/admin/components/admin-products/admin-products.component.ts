@@ -1,9 +1,9 @@
-import { ProductService } from './../../product.service';
+import { ProductService } from 'shared/services/product.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
-import { Product, ProductKey } from '../../models/product';
+import { Product, ProductKey } from 'shared/models/product';
 import { DataTableResource } from '@mindsorg/ng-data-table';
 
 @Component({

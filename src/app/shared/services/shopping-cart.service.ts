@@ -1,9 +1,9 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
-import { ProductKey } from './models/product';
+import { ProductKey } from 'shared/models/product';
 import { take, map } from 'rxjs/operators';
-import { ShoppingCart } from './models/shopping-cart';
-import { ShoppingCartItem } from './models/shopping-cart-item';
+import { ShoppingCart } from 'shared/models/shopping-cart';
+import { ShoppingCartItem } from 'shared/models/shopping-cart-item';
 import { Observable } from 'rxjs';
 
 @Injectable({
