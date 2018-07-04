@@ -1,3 +1,5 @@
-.card-footer { padding:0; }
+.card-footer { padding:0; background: #fff;}
+.card-footer button { cursor: pointer; text-transform: uppercase; }
 .card { margin-bottom: 13px; min-height: 365px;}
 .card-img-top { max-height: 210px;  object-fit: contain;}
+
