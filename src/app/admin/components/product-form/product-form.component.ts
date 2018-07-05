@@ -1,4 +1,4 @@
-import { Product } from 'shared/models/product';
+import { Product, ProductKey } from 'shared/models/product';
 import { ProductService } from 'shared/services/product.service';
 import { CategoryService } from 'shared/services/category.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,13 +16,13 @@ export class ProductFormComponent implements OnInit {
   categories$;
   product = {}; // para evitar tener un error en la carga inicial, ahora que usamos 2-way binding, ya que al inicio será null
   id: string;
-  productTipo : Product = {title:'',price:0,category:'',imageUrl:''}; 
+  productTipo : ProductKey = {data: {title:'',price:0,category:'',imageUrl:''}, key:''};
   // no hace falta private para categoryService porque solo lo uso en el constructor
   constructor(
     private route: ActivatedRoute,
     private router: Router,
             categoryService: CategoryService,
-    private productService: ProductService) { 
+    private productService: ProductService) {
 
     this.categories$ = categoryService.getAll();
     this.id= this.route.snapshot.paramMap.get('id');
@@ -37,12 +37,11 @@ export class ProductFormComponent implements OnInit {
          this.productService.getTipo(this.id).valueChanges() // Versión tipada, la he hecho para poder usar producto.prop. Tambien podria haber llamado a las propiedades con product['prop'] en vez de product.prop
         .pipe(take(1))
         .subscribe( p => {
-          this.productTipo = p;
+          this.productTipo.data = p;
+          
+        });
+    }
 
-          //console.log(this.productTipo)
-        }); 
-    } 
-    
   }
 
   ngOnInit() {
@@ -66,7 +65,7 @@ export class ProductFormComponent implements OnInit {
     if (confirm('Are you sure you want to delete this product?')){
       this.productService.delete(this.id);
       this.router.navigate(['/admin/products']);
-    } 
+    }
   }
 
 }

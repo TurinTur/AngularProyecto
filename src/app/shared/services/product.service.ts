@@ -21,14 +21,14 @@ export class ProductService {
 
   getAllTipo () : Observable<Product[]>{                          // Como getAll pero tipada
     return this.db.list('/products').valueChanges().pipe(
-      map(arrayP => { 
+      map(arrayP => {
         return arrayP.map(producto => {
-             const data: Product = {'title':producto['title'],    
-                                   'price':producto['price'], 
+             const data: Product = {'title':producto['title'],
+                                   'price':producto['price'],
                                    'category':producto['category'],
                                    'imageUrl':producto['imageUrl'],
            };
-            return data;          
+            return data;
           });
       })
     );
@@ -36,10 +36,10 @@ export class ProductService {
 
   getAllTipoKeys () : Observable<ProductKey[]>{                 // devuelvo los productos y sus claves
     return this.db.list('/products').snapshotChanges()
-    .pipe(map(items => {            
+    .pipe(map(items => {
       return items.map(a => {
         const data: Product = {'title':a.payload.val()['title'],     // forma antigua: const data = a.payload.val()
-                               'price':a.payload.val()['price'], 
+                               'price':a.payload.val()['price'],
                                'category':a.payload.val()['category'],
                                'imageUrl':a.payload.val()['imageUrl'],
        };
@@ -59,7 +59,7 @@ export class ProductService {
   }
 
   getTipo(productId ) : AngularFireObject<Product>{
-    return this.db.object('/products/' + productId);
+    return this.db.object<Product>('/products/' + productId);
   }
 
   update (productId, product){
